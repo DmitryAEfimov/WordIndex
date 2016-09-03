@@ -35,7 +35,7 @@ public class Trie {
             children = trie.children;
         }
 
-        //Если конец слова -> значит узел
+        //Если конец слова ==> узел
         if (trie != null) {
             trie.isLeaf = true;
             return trie;

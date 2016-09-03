@@ -4,8 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Set;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -22,81 +25,78 @@ public class WordIndexProcessorImplTest {
         tester.loadFile(filename);
     }
 
-//    @Test
-//    public void test1InNormalTXTDescription() {
-//        String word = "никогда";
-//
-//        assertNull(tester.getIndexes4Word(word));
-//    }
+    @Test
+    public void test1InNormalTXTDescription() {
+        String word = "никогда";
 
-//    @Test
-//    public void test2InNormalTXTDescription() {
-//        String word = "слово";
-//        Integer[] expectedPositions = {104,144,284,291,477,649};
-//
-//        assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
-//    }
+        assertNull(tester.getIndexes4Word(word));
+    }
 
-//    @Test
-//    public void test3aInNormalTXTDescription() {
-//        String word = "we're";
-//        Integer[] expectedPositions = {441};
-//
-//        assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
-//    }
+    @Test
+    public void test2InNormalTXTDescription() {
+        String word = "слово";
+        Integer[] expectedPositions = {104,144,284,291,477,649};
+
+        assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
+    }
+
+    @Test
+    public void test3aInNormalTXTDescription() {
+        String word = "we're";
+        Integer[] expectedPositions = {441};
+
+        assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
+    }
 
     @Test
     public void test3bInNormalTXTDescription() {
         String word = "что-то";
         Integer[] expectedPositions = {484};
 
-        assertTrue(tester.getIndexes4Word(word) == null);
-        //assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
+        assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
     }
 
-//    @Test
-//    public void test4InNormalTXTDescription() {
-//        String word = "лад";
-//        Integer[] expectedPositions = {629,656};
-//
-//        assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
-//    }
+    @Test
+    public void test4InNormalTXTDescription() {
+        String word = "лад";
+        Integer[] expectedPositions = {629,656};
 
-//    @Test
-//    public void test5InNormalTXTDescription() {
-//        String word = "";
-//
-//        assertNull(tester.getIndexes4Word(word));
-//    }
+        assertArrayEquals(expectedPositions, getPositions(tester.getIndexes4Word(word)));
+    }
 
-//    @Test
-//    public void test6InNormalTXTDescription() {
-//        String filename = this.getClass().getResource("/empty.txt").getPath();
-//        tester.loadFile(filename);
-//
-//        assertNull(tester.getIndexes4Word("noMatterWord"));
-//    }
+    @Test
+    public void test5InNormalTXTDescription() {
+        String word = "";
 
-//    @Test
-//    public void test7InNormalTXTDescription() {
-//        String filename = this.getClass().getResource("/huge.txt").getPath();
-//        WordIndexProcessorExt hugeTester = new WordIndexProcessorExt();
-//        Calendar cldFrom = Calendar.getInstance();
-//        hugeTester.loadFile(filename);
-//        Calendar cldTo = Calendar.getInstance();
-//        hugeTester.calcWordCount();
-//
-//        long millis = cldTo.getTimeInMillis() - cldFrom.getTimeInMillis();
-//        double speed = ((double) millis)/hugeTester.getWordCount();
-//
-//        assertTrue("Slow index building: " + speed, speed <= TRIE_NODE_BUILD_SPEED);
-//    }
+        assertNull(tester.getIndexes4Word(word));
+    }
+
+    @Test
+    public void test6InNormalTXTDescription() {
+        String filename = this.getClass().getResource("/empty.txt").getPath();
+        tester.loadFile(filename);
+
+        assertNull(tester.getIndexes4Word("noMatterWord"));
+    }
+
+    @Test
+    public void test7InNormalTXTDescription() {
+        String filename = this.getClass().getResource("/huge.txt").getPath();
+        WordIndexProcessorExt hugeTester = new WordIndexProcessorExt();
+        Calendar cldFrom = Calendar.getInstance();
+        hugeTester.loadFile(filename);
+        Calendar cldTo = Calendar.getInstance();
+        hugeTester.calcWordCount();
+
+        long millis = cldTo.getTimeInMillis() - cldFrom.getTimeInMillis();
+        double speed = ((double) millis)/hugeTester.getWordCount();
+
+        assertTrue("Slow index building: " + speed, speed <= TRIE_NODE_BUILD_SPEED);
+    }
 
     private Integer[] getPositions(Set<Integer> set) {
         Integer[] array = new Integer[set.size()];
         Arrays.sort(set.toArray(array));
         return array;
     }
-
-
 }
