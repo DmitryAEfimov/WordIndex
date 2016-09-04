@@ -1,15 +1,12 @@
 package com.defimov.poc.wordindex;
 
+import com.defimov.poc.trie.TrieNode;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Set;
+import java.util.*;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by Dmitry.Efimov on 02.09.2016.
@@ -81,15 +78,17 @@ public class WordIndexProcessorImplTest {
 
     @Test
     public void test7InNormalTXTDescription() {
+        HashMap<TrieNode, Set<Integer>> frequencyMap;
         String filename = this.getClass().getResource("/huge.txt").getPath();
-        WordIndexProcessorExt hugeTester = new WordIndexProcessorExt();
+        WordIndexProcessorImpl hugeTester = new WordIndexProcessorImpl();
         Calendar cldFrom = Calendar.getInstance();
         hugeTester.loadFile(filename);
         Calendar cldTo = Calendar.getInstance();
-        hugeTester.calcWordCount();
+        frequencyMap = hugeTester.getFrequencyMap();
 
+        long wordCount = calcWordCount(frequencyMap);
         long millis = cldTo.getTimeInMillis() - cldFrom.getTimeInMillis();
-        double speed = ((double) millis)/hugeTester.getWordCount();
+        double speed = ((double) millis)/wordCount;
 
         assertTrue("Slow index building: " + speed, speed <= TRIE_NODE_BUILD_SPEED);
     }
@@ -98,5 +97,14 @@ public class WordIndexProcessorImplTest {
         Integer[] array = new Integer[set.size()];
         Arrays.sort(set.toArray(array));
         return array;
+    }
+
+    private long calcWordCount(Map<TrieNode, Set<Integer>> frequencyMap) {
+        long wordCount = 0;
+        for (Set<Integer> set : frequencyMap.values()) {
+            wordCount += set.size();
+        }
+
+        return wordCount;
     }
 }

@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class WordIndexProcessorImpl implements WordIndexProcessor {
     private Trie trie = new Trie();
-    protected HashMap<TrieNode, Set<Integer>> frequencyMap = new HashMap<>();
+    private HashMap<TrieNode, Set<Integer>> frequencyMap = new HashMap<>();
 
     @Override
     public void loadFile(String filename) {
@@ -61,6 +61,10 @@ public class WordIndexProcessorImpl implements WordIndexProcessor {
                 offset += tmpString.length() + System.lineSeparator().length();
             }
         }
+    }
+
+    public HashMap<TrieNode, Set<Integer>> getFrequencyMap() {
+        return frequencyMap;
     }
 
     private void addToMap(TrieNode node, int position) {
